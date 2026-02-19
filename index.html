@@ -2,17 +2,20 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="Sistema de controle de abastecimento para locomotiva U20-3830">
   <meta name="theme-color" content="#06b6d4">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="manifest" href="manifest.json">
-  <title>Controle de Combustível - Locomotiva U20-3830</title>
+  <title>Combustível U20-3830</title>
   
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -20,7 +23,8 @@
       background: linear-gradient(135deg, #1f2937 0%, #111827 50%, #1f2937 100%);
       color: white;
       min-height: 100vh;
-      padding: 20px;
+      padding: 10px;
+      overflow-x: hidden;
     }
 
     .container {
@@ -30,19 +34,21 @@
 
     .header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
+      padding: 10px;
     }
 
     .header-content {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 10px;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .header h1 {
-      font-size: 2.5rem;
+      font-size: 1.5rem;
       background: linear-gradient(to right, #06b6d4, #3b82f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -51,60 +57,61 @@
 
     .header p {
       color: #9ca3af;
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
 
     .card {
       background: #1f2937;
       border: 1px solid #374151;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
     }
 
     .gauge-container {
       position: relative;
-      width: 400px;
-      max-width: 100%;
-      height: 280px;
-      margin: 0 auto 40px;
+      width: 100%;
+      max-width: 350px;
+      height: 240px;
+      margin: 0 auto 30px;
     }
 
     .digital-display {
       position: absolute;
-      bottom: 10px;
+      bottom: 5px;
       left: 50%;
       transform: translateX(-50%);
       background: #000;
       border: 2px solid rgba(6, 182, 212, 0.5);
-      border-radius: 10px;
-      padding: 15px 30px;
-      min-width: 180px;
+      border-radius: 8px;
+      padding: 12px 25px;
+      min-width: 150px;
       text-align: center;
     }
 
     .digital-liters {
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: bold;
       color: #06b6d4;
       font-family: monospace;
+      line-height: 1;
     }
 
     .digital-percent {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: #9ca3af;
-      margin-top: 5px;
+      margin-top: 4px;
     }
 
     .controls {
       display: grid;
-      gap: 20px;
+      gap: 15px;
     }
 
     .input-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
 
     .input-group {
@@ -113,71 +120,75 @@
     }
 
     .input-group label {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: #9ca3af;
       margin-bottom: 8px;
+      font-weight: 500;
     }
 
     .input-split {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 8px;
     }
 
     input[type="date"],
     input[type="time"] {
       width: 100%;
-      padding: 10px 15px;
+      padding: 12px;
       background: #111827;
       border: 1px solid #374151;
       border-radius: 8px;
       color: white;
       font-size: 1rem;
+      touch-action: manipulation;
     }
 
     input[type="date"]:focus,
     input[type="time"]:focus {
       outline: none;
       border-color: #06b6d4;
-      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
     }
 
     .status-display {
       background: #111827;
       border: 1px solid #374151;
       border-radius: 10px;
-      padding: 20px;
+      padding: 15px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 12px;
       text-align: center;
     }
 
     .status-item {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
 
     .status-label {
       color: #9ca3af;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .status-value {
       color: white;
-      font-size: 1.125rem;
-      font-weight: 600;
+      font-size: 1.25rem;
+      font-weight: 700;
     }
 
     .button-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
     button {
-      padding: 15px;
+      padding: 16px;
       border: none;
       border-radius: 10px;
       font-weight: bold;
@@ -187,7 +198,14 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.3s;
+      transition: all 0.2s;
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    button:active {
+      transform: scale(0.98);
     }
 
     button:disabled {
@@ -198,51 +216,36 @@
     .btn-save {
       background: linear-gradient(to right, #10b981, #059669);
       color: white;
-      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-    }
-
-    .btn-save:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
     }
 
     .btn-refuel {
       background: linear-gradient(to right, #06b6d4, #3b82f6);
       color: white;
-      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.3);
-    }
-
-    .btn-refuel:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(6, 182, 212, 0.4);
+      box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
     }
 
     .btn-whatsapp {
       background: linear-gradient(to right, #059669, #047857);
       color: white;
-      box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
-    }
-
-    .btn-whatsapp:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 15px 30px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
     }
 
     .history {
-      margin-top: 30px;
+      margin-top: 25px;
       background: #111827;
       border: 1px solid #374151;
       border-radius: 10px;
-      padding: 20px;
+      padding: 15px;
     }
 
     .history h3 {
-      margin-bottom: 20px;
-      font-size: 1.125rem;
+      margin-bottom: 15px;
+      font-size: 1rem;
     }
 
     .history-list {
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -253,35 +256,37 @@
       background: #1f2937;
       border: 1px solid #374151;
       border-radius: 8px;
-      padding: 15px;
+      padding: 12px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
       transition: border-color 0.3s;
     }
 
-    .history-item:hover {
+    .history-item:active {
       border-color: #06b6d4;
     }
 
     .history-data {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      flex: 1;
-      font-size: 0.875rem;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 0.8rem;
     }
 
     .history-field label {
       color: #9ca3af;
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       display: block;
       margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .history-field .value {
       color: white;
       font-family: monospace;
+      font-size: 0.85rem;
     }
 
     .history-field .highlight-cyan {
@@ -295,39 +300,41 @@
     }
 
     .btn-delete {
-      background: transparent;
-      color: #9ca3af;
-      padding: 8px;
-      border-radius: 8px;
-      min-width: auto;
-    }
-
-    .btn-delete:hover {
       background: rgba(239, 68, 68, 0.1);
       color: #ef4444;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 0.875rem;
+    }
+
+    .btn-delete:active {
+      background: rgba(239, 68, 68, 0.2);
     }
 
     .history-summary {
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: 15px;
+      padding-top: 15px;
       border-top: 1px solid #374151;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 15px;
       text-align: center;
     }
 
     .summary-item label {
       color: #9ca3af;
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       display: block;
       margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .summary-item .value {
       color: white;
-      font-size: 1.125rem;
-      font-weight: 600;
+      font-size: 1.25rem;
+      font-weight: 700;
     }
 
     .summary-item .value.red {
@@ -335,11 +342,11 @@
     }
 
     .warning {
-      margin-top: 30px;
+      margin-top: 20px;
       background: rgba(239, 68, 68, 0.2);
       border: 1px solid rgba(239, 68, 68, 0.5);
       border-radius: 10px;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
       animation: pulse 2s infinite;
     }
@@ -347,7 +354,7 @@
     .warning p {
       color: #ef4444;
       font-weight: 600;
-      font-size: 1.125rem;
+      font-size: 0.95rem;
     }
 
     @keyframes pulse {
@@ -360,34 +367,78 @@
     }
 
     .icon {
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       fill: #06b6d4;
     }
 
-    @media (max-width: 768px) {
+    /* Scrollbar styling */
+    .history-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .history-list::-webkit-scrollbar-track {
+      background: #1f2937;
+      border-radius: 3px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 3px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb:hover {
+      background: #4b5563;
+    }
+
+    @media (min-width: 640px) {
+      body {
+        padding: 20px;
+      }
+
+      .header {
+        margin-bottom: 30px;
+      }
+
       .header h1 {
-        font-size: 1.75rem;
-      }
-
-      .input-row {
-        grid-template-columns: 1fr;
-      }
-
-      .button-row {
-        grid-template-columns: 1fr;
-      }
-
-      .status-display {
-        grid-template-columns: 1fr;
-      }
-
-      .history-data {
-        grid-template-columns: repeat(2, 1fr);
+        font-size: 2rem;
       }
 
       .card {
+        padding: 30px;
+      }
+
+      .gauge-container {
+        max-width: 400px;
+        height: 280px;
+      }
+
+      .status-display {
+        grid-template-columns: repeat(3, 1fr);
         padding: 20px;
+      }
+
+      .button-row {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .input-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .history-data {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .btn-delete {
+        width: auto;
+        min-width: 80px;
+      }
+
+      .history-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   </style>
@@ -409,7 +460,6 @@
       <!-- Medidor de Combustível -->
       <div class="gauge-container">
         <svg id="fuelGauge" viewBox="0 0 400 280" style="width: 100%; height: 100%;">
-          <!-- Outer Circle -->
           <defs>
             <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
@@ -470,14 +520,14 @@
       <div class="controls">
         <div class="input-row">
           <div class="input-group">
-            <label>Data e Horário de Início</label>
+            <label>📅 Data e Horário de Início</label>
             <div class="input-split">
               <input type="date" id="startDate">
               <input type="time" id="startTime">
             </div>
           </div>
           <div class="input-group">
-            <label>Data e Horário Final</label>
+            <label>📅 Data e Horário Final</label>
             <div class="input-split">
               <input type="date" id="endDate">
               <input type="time" id="endTime">
@@ -488,7 +538,7 @@
         <!-- Status Display -->
         <div class="status-display">
           <div class="status-item">
-            <span class="status-label">Tempo de Operação</span>
+            <span class="status-label">Tempo Operação</span>
             <span class="status-value" id="hoursRunning">0.00h</span>
           </div>
           <div class="status-item">
@@ -548,6 +598,34 @@
       hoursRunning: 0,
       records: []
     };
+
+    // Carregar dados do localStorage
+    function loadData() {
+      const saved = localStorage.getItem('fuelData');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          state.fuelLevel = data.fuelLevel || 100;
+          state.fuelLiters = data.fuelLiters || 6000;
+          state.records = data.records || [];
+        } catch (e) {
+          console.error('Erro ao carregar dados:', e);
+        }
+      }
+    }
+
+    // Salvar dados no localStorage
+    function saveData() {
+      try {
+        localStorage.setItem('fuelData', JSON.stringify({
+          fuelLevel: state.fuelLevel,
+          fuelLiters: state.fuelLiters,
+          records: state.records
+        }));
+      } catch (e) {
+        console.error('Erro ao salvar dados:', e);
+      }
+    }
 
     // Elementos DOM
     const elements = {
@@ -672,6 +750,7 @@
         state.hoursRunning = 0;
         elements.btnSave.disabled = true;
 
+        saveData();
         renderHistory();
         updateDisplay();
       }
@@ -679,14 +758,17 @@
 
     // Abastecer
     function refuel() {
-      state.fuelLiters = state.maxCapacity;
-      state.fuelLevel = 100;
-      elements.startDate.value = '';
-      elements.startTime.value = '';
-      elements.endDate.value = '';
-      elements.endTime.value = '';
-      state.hoursRunning = 0;
-      updateDisplay();
+      if (confirm('Resetar combustível para 6000L?')) {
+        state.fuelLiters = state.maxCapacity;
+        state.fuelLevel = 100;
+        elements.startDate.value = '';
+        elements.startTime.value = '';
+        elements.endDate.value = '';
+        elements.endTime.value = '';
+        state.hoursRunning = 0;
+        saveData();
+        updateDisplay();
+      }
     }
 
     // Renderizar histórico
@@ -706,11 +788,11 @@
           <div class="history-data">
             <div class="history-field">
               <label>Início</label>
-              <div class="value">${new Date(record.startDate).toLocaleDateString('pt-BR')} ${record.startTime}</div>
+              <div class="value">${new Date(record.startDate).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} ${record.startTime}</div>
             </div>
             <div class="history-field">
               <label>Fim</label>
-              <div class="value">${new Date(record.endDate).toLocaleDateString('pt-BR')} ${record.endTime}</div>
+              <div class="value">${new Date(record.endDate).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} ${record.endTime}</div>
             </div>
             <div class="history-field">
               <label>Tempo</label>
@@ -721,8 +803,8 @@
               <div class="value highlight-red">${Math.round(record.fuelConsumed)}L</div>
             </div>
           </div>
-          <button class="btn-delete" onclick="deleteRecord('${record.id}')" title="Excluir registro">
-            🗑️
+          <button class="btn-delete" onclick="deleteRecord('${record.id}')">
+            🗑️ EXCLUIR
           </button>
         `;
         elements.historyList.appendChild(item);
@@ -737,9 +819,12 @@
 
     // Deletar registro
     function deleteRecord(id) {
-      state.records = state.records.filter(r => r.id !== id);
-      renderHistory();
-      calculateConsumption();
+      if (confirm('Excluir este registro?')) {
+        state.records = state.records.filter(r => r.id !== id);
+        saveData();
+        renderHistory();
+        calculateConsumption();
+      }
     }
 
     // Enviar WhatsApp
@@ -747,12 +832,20 @@
       const totalHours = state.records.reduce((acc, r) => acc + r.hoursRunning, 0);
       const totalFuel = state.records.reduce((acc, r) => acc + r.fuelConsumed, 0);
 
-      let message = `🚂 RELATÓRIO DE COMBUSTÍVEL - LOCOMOTIVA U20-3830\n\n`;
-      message += `📊 STATUS ATUAL:\n`;
+      let message = `🚂 *RELATÓRIO - LOCOMOTIVA U20-3830*\n\n`;
+      message += `📊 *STATUS ATUAL:*\n`;
       message += `• Capacidade: ${state.maxCapacity}L\n`;
       message += `• Combustível atual: ${Math.round(state.fuelLiters)}L (${state.fuelLevel.toFixed(1)}%)\n`;
-      message += `• Tempo de Utilização: ${totalHours.toFixed(2)}h\n`;
-      message += `• Combustível Utilizado: ${Math.round(totalFuel)}L\n`;
+      message += `• Tempo Total: ${totalHours.toFixed(2)}h\n`;
+      message += `• Combustível Consumido: ${Math.round(totalFuel)}L\n\n`;
+      
+      if (state.records.length > 0) {
+        message += `📋 *HISTÓRICO (${state.records.length} registros):*\n`;
+        state.records.forEach((r, i) => {
+          message += `\n${i+1}. ${new Date(r.startDate).toLocaleDateString('pt-BR')} ${r.startTime} → ${new Date(r.endDate).toLocaleDateString('pt-BR')} ${r.endTime}\n`;
+          message += `   ⏱ ${r.hoursRunning.toFixed(2)}h | ⛽ ${Math.round(r.fuelConsumed)}L\n`;
+        });
+      }
 
       const encodedMessage = encodeURIComponent(message);
       window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
@@ -767,8 +860,17 @@
     elements.btnRefuel.addEventListener('click', refuel);
     elements.btnWhatsapp.addEventListener('click', sendToWhatsApp);
 
+    // Registrar Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => {
+        console.log('Service Worker registration failed:', err);
+      });
+    }
+
     // Inicializar
+    loadData();
     createTickMarks();
+    renderHistory();
     updateDisplay();
   </script>
 </body>
