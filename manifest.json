@@ -1,23 +1,24 @@
 {
-  "name": "Controle de Combustível - Locomotiva U20-3830",
+  "name": "Combustível U20-3830",
   "short_name": "U20-3830",
-  "description": "Sistema de controle de abastecimento para locomotiva U20-3830",
-  "start_url": "COMBUSTIVEL-U20-3830.html",
+  "description": "Sistema de controle de combustível para locomotiva U20-3830",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#06b6d4",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%2306b6d4' width='192' height='192' rx='40'/%3E%3Cpath fill='%23fff' d='M48 70h96v52H48z' rx='8'/%3E%3Cpath fill='%2306b6d4' d='M48 86h96v4H48zM48 102h96v4H48z'/%3E%3Ccircle cx='96' cy='96' r='20' fill='%23fff'/%3E%3Cpath fill='%2306b6d4' d='M96 80v32M80 96h32' stroke='%2306b6d4' stroke-width='4'/%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2306b6d4' width='512' height='512' rx='100'/%3E%3Cpath fill='%23fff' d='M128 180h256v152H128z' rx='20'/%3E%3Cpath fill='%2306b6d4' d='M128 220h256v12H128zM128 268h256v12H128z'/%3E%3Ccircle cx='256' cy='256' r='50' fill='%23fff'/%3E%3Cpath fill='%2306b6d4' d='M256 210v92M210 256h92' stroke='%2306b6d4' stroke-width='10'/%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
