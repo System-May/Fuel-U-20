@@ -11,10 +11,10 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="./manifest.json?v=2.0.1">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%2306b6d4' width='192' height='192' rx='40'/%3E%3Cpath fill='%23fff' d='M48 70h96v52H48z' rx='8'/%3E%3Cpath fill='%2306b6d4' d='M48 86h96v4H48zM48 102h96v4H48z'/%3E%3Ccircle cx='96' cy='96' r='20' fill='%23fff'/%3E%3Cpath fill='%2306b6d4' d='M96 80v32M80 96h32' stroke='%2306b6d4' stroke-width='4'/%3E%3C/svg%3E">
   <base href="/Fuel-U-20/">
-  <title>Combustível U20-3830 V2.0</title>
+  <title>🔴 NOVA VERSÃO 120L/H - U20-3830</title>
   
   <style>
     * {
@@ -892,17 +892,11 @@
       });
     }
     
-    // FORÇAR ATUALIZAÇÃO - Remove cache antigo
-    if (localStorage.getItem('fuelData')) {
-      const data = JSON.parse(localStorage.getItem('fuelData'));
-      if (!data.version || data.version < 2) {
-        console.log('Atualizando sistema para versão 2...');
-        localStorage.removeItem('fuelData');
-        alert('⚠️ Sistema atualizado! A página será recarregada.');
-        location.reload(true);
-      }
-    }
-
+    // FORÇAR ATUALIZAÇÃO DA PREVIEW - LOG VISÍVEL
+    console.log('%c🔴🔴🔴 VERSÃO 120L/H CARREGADA! 🔴🔴🔴', 'color: red; font-size: 30px; font-weight: bold; background: yellow; padding: 10px;');
+    console.log('Consumo atual:', state.avgConsumption, 'L/h');
+    document.title = '🔴 120L/H ATIVO - U20-3830 [' + Date.now() + ']';
+    
     // Inicializar
     loadData();
     createTickMarks();
