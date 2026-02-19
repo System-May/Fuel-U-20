@@ -546,7 +546,7 @@
           </div>
           <div class="status-item">
             <span class="status-label">Consumo</span>
-            <span class="status-value">25L/h</span>
+            <span class="status-value">120L/h</span>
           </div>
           <div class="status-item">
             <span class="status-label">Total Consumido</span>
@@ -597,7 +597,7 @@
       fuelLevel: 100,
       maxCapacity: 6000,
       fuelLiters: 6000,
-      avgConsumption: 25,
+      avgConsumption: 120,
       hoursRunning: 0,
       records: []
     };
@@ -623,7 +623,8 @@
         localStorage.setItem('fuelData', JSON.stringify({
           fuelLevel: state.fuelLevel,
           fuelLiters: state.fuelLiters,
-          records: state.records
+          records: state.records,
+          version: 2
         }));
       } catch (e) {
         console.error('Erro ao salvar dados:', e);
@@ -764,13 +765,21 @@
       if (confirm('Resetar combustível para 6000L?')) {
         state.fuelLiters = state.maxCapacity;
         state.fuelLevel = 100;
+        state.records = [];
         elements.startDate.value = '';
         elements.startTime.value = '';
         elements.endDate.value = '';
         elements.endTime.value = '';
         state.hoursRunning = 0;
+        
+        // Limpar localStorage completamente
+        localStorage.removeItem('fuelData');
+        
         saveData();
+        renderHistory();
         updateDisplay();
+        
+        alert('✅ Sistema resetado! Consumo atualizado para 120L/h');
       }
     }
 
@@ -868,6 +877,24 @@
       navigator.serviceWorker.register('sw.js').catch(err => {
         console.log('Service Worker registration failed:', err);
       });
+      
+      // Limpar cache antigo ao iniciar
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(registration => {
+          registration.update();
+        });
+      });
+    }
+    
+    // FORÇAR ATUALIZAÇÃO - Remove cache antigo
+    if (localStorage.getItem('fuelData')) {
+      const data = JSON.parse(localStorage.getItem('fuelData'));
+      if (!data.version || data.version < 2) {
+        console.log('Atualizando sistema para versão 2...');
+        localStorage.removeItem('fuelData');
+        alert('⚠️ Sistema atualizado! A página será recarregada.');
+        location.reload(true);
+      }
     }
 
     // Inicializar
