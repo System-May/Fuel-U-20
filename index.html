@@ -849,19 +849,11 @@
       const totalFuel = state.records.reduce((acc, r) => acc + r.fuelConsumed, 0);
 
       let message = `🚂 *RELATÓRIO - LOCOMOTIVA U20-3830*\n\n`;
-      message += `📊 *STATUS ATUAL:*\n`;
+      message += `⛽ *STATUS ATUAL:*\n`;
       message += `• Capacidade: ${state.maxCapacity}L\n`;
       message += `• Combustível atual: ${Math.round(state.fuelLiters)}L (${state.fuelLevel.toFixed(1)}%)\n`;
       message += `• Tempo Total: ${totalHours.toFixed(2)}h\n`;
-      message += `• Combustível Consumido: ${Math.round(totalFuel)}L\n\n`;
-      
-      if (state.records.length > 0) {
-        message += `📋 *HISTÓRICO (${state.records.length} registros):*\n`;
-        state.records.forEach((r, i) => {
-          message += `\n${i+1}. ${new Date(r.startDate).toLocaleDateString('pt-BR')} ${r.startTime} → ${new Date(r.endDate).toLocaleDateString('pt-BR')} ${r.endTime}\n`;
-          message += `   ⏱ ${r.hoursRunning.toFixed(2)}h | ⛽ ${Math.round(r.fuelConsumed)}L\n`;
-        });
-      }
+      message += `• Combustível Consumido: ${Math.round(totalFuel)}L`;
 
       const encodedMessage = encodeURIComponent(message);
       window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
