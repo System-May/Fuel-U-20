@@ -140,7 +140,8 @@
     }
 
     input[type="date"],
-    input[type="time"] {
+    input[type="time"],
+    input[type="text"] {
       width: 100%;
       padding: 12px;
       background: #111827;
@@ -152,7 +153,8 @@
     }
 
     input[type="date"]:focus,
-    input[type="time"]:focus {
+    input[type="time"]:focus,
+    input[type="text"]:focus {
       outline: none;
       border-color: #06b6d4;
       box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
@@ -530,14 +532,14 @@
             <label>📅 Data e Horário de Início</label>
             <div class="input-split">
               <input type="date" id="startDate">
-              <input type="time" id="startTime">
+              <input type="text" id="startTime" placeholder="HH:MM" maxlength="5">
             </div>
           </div>
           <div class="input-group">
             <label>📅 Data e Horário Final</label>
             <div class="input-split">
               <input type="date" id="endDate">
-              <input type="time" id="endTime">
+              <input type="text" id="endTime" placeholder="HH:MM" maxlength="5">
             </div>
           </div>
         </div>
@@ -867,6 +869,33 @@
     elements.btnSave.addEventListener('click', saveRecord);
     elements.btnRefuel.addEventListener('click', refuel);
     elements.btnWhatsapp.addEventListener('click', sendToWhatsApp);
+
+    // Máscara de horário (HH:MM)
+    function formatTimeInput(input) {
+      let value = input.value.replace(/\D/g, ''); // Remove não-dígitos
+      
+      if (value.length >= 2) {
+        const hours = Math.min(parseInt(value.substring(0, 2)), 23);
+        value = hours.toString().padStart(2, '0');
+        
+        if (value.length >= 2 && input.value.length > 2) {
+          const minutes = Math.min(parseInt(value.substring(2, 4) || '00'), 59);
+          value = value.substring(0, 2) + ':' + minutes.toString().padStart(2, '0');
+        }
+      }
+      
+      input.value = value;
+    }
+
+    elements.startTime.addEventListener('input', function(e) {
+      formatTimeInput(e.target);
+      calculateConsumption();
+    });
+
+    elements.endTime.addEventListener('input', function(e) {
+      formatTimeInput(e.target);
+      calculateConsumption();
+    });
 
     // Registrar Service Worker
     if ('serviceWorker' in navigator) {
