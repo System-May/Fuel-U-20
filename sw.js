@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fuel-u20-v2';
+const CACHE_NAME = 'fuel-u20-v3.1-emoji';
 const BASE_PATH = '/Fuel-U-20/';
 const urlsToCache = [
   BASE_PATH,
